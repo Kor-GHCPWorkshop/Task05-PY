@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>나의 메모 목록</h2>
+        <a href="{% url 'memo_create' %}" class="btn btn-primary">새 메모 작성</a>
+    </div>
+    <div class="row">
+        {% for memo in memos %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ memo.title }}</h5>
+                        <p class="card-text">{{ memo.content|truncatewords:30 }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">{{ memo.created_at|date:"Y년 m월 d일" }}</small>
+                        <div class="mt-2">
+                            <a href="{% url 'memo_detail' memo.pk %}" class="btn btn-sm btn-outline-primary">자세히</a>
+                            <a href="{% url 'memo_edit' memo.pk %}" class="btn btn-sm btn-outline-secondary">수정</a>
+                            <a href="{% url 'memo_delete' memo.pk %}" class="btn btn-sm btn-outline-danger">삭제</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center">
+                <p>작성된 메모가 없습니다.</p>
+                <a href="{% url 'memo_create' %}" class="btn btn-primary">첫 메모 작성하기</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
